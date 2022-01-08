@@ -6,24 +6,24 @@
 
 #define UNASSIGNED 0
 
-int is_safe(Sudoku *sudoku, int x, int y, int number)
+int is_safe(Sudoku *sudoku, size_t x, size_t y, size_t number)
 {
     // Check column
-    for (int i = 0; i < sudoku->edge; i++)
+    for (size_t i = 0; i < sudoku->edge; i++)
         if (get(sudoku, i, y) == number)
             return 0;
 
     // Check row
-    for (int j = 0; j < sudoku->edge; j++)
+    for (size_t j = 0; j < sudoku->edge; j++)
         if (get(sudoku, x, j) == number)
             return 0;
 
     // Check current box
-    int box_edge = sqrt(sudoku->edge);
-    int box_pos_x = (x / box_edge) * box_edge;
-    int box_pos_y = (y / box_edge) * box_edge;
-    for (int i = box_pos_x; i < box_pos_x + box_edge; i++)
-        for (int j = box_pos_y; j < box_pos_y + box_edge; j++)
+    size_t box_edge = sqrt(sudoku->edge);
+    size_t box_pos_x = (x / box_edge) * box_edge;
+    size_t box_pos_y = (y / box_edge) * box_edge;
+    for (size_t i = box_pos_x; i < box_pos_x + box_edge; i++)
+        for (size_t j = box_pos_y; j < box_pos_y + box_edge; j++)
             if (get(sudoku, i, j) == number)
                 return 0;
 
@@ -33,12 +33,12 @@ int is_safe(Sudoku *sudoku, int x, int y, int number)
 int solve(Sudoku *sudoku)
 {
     // Check for an unassigned position
-    for (int i = 0; i < sudoku->edge; i++)
-        for (int j = 0; j < sudoku->edge; j++)
+    for (size_t i = 0; i < sudoku->edge; i++)
+        for (size_t j = 0; j < sudoku->edge; j++)
             if (get(sudoku, i, j) == UNASSIGNED)
             {
                 // Check safety for every posibilities
-                for (int k = 1; k <= sudoku->edge; k++)
+                for (size_t k = 1; k <= sudoku->edge; k++)
                 {
                     if (is_safe(sudoku, i, j, k))
                     {
