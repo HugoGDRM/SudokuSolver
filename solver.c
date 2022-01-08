@@ -6,24 +6,24 @@
 
 #define UNASSIGNED 0
 
-int is_safe(Sudoku *sudoku, size_t x, size_t y, size_t number)
+int is_safe(Sudoku *sudoku, size_t row, size_t column, size_t number)
 {
     // Check column
     for (size_t i = 0; i < sudoku->edge; i++)
-        if (get(sudoku, i, y) == number)
+        if (get(sudoku, i, column) == number)
             return 0;
 
     // Check row
     for (size_t j = 0; j < sudoku->edge; j++)
-        if (get(sudoku, x, j) == number)
+        if (get(sudoku, row, j) == number)
             return 0;
 
-    // Check current box
-    size_t box_edge = sqrt(sudoku->edge);
-    size_t box_pos_x = (x / box_edge) * box_edge;
-    size_t box_pos_y = (y / box_edge) * box_edge;
-    for (size_t i = box_pos_x; i < box_pos_x + box_edge; i++)
-        for (size_t j = box_pos_y; j < box_pos_y + box_edge; j++)
+    // Check current borow
+    size_t square_size = sqrt(sudoku->edge);
+    size_t square_row = (row / square_size) * square_size;
+    size_t square_column = (column / square_size) * square_size;
+    for (size_t i = square_row; i < square_row + square_size; i++)
+        for (size_t j = square_column; j < square_column + square_size; j++)
             if (get(sudoku, i, j) == number)
                 return 0;
 
@@ -37,7 +37,7 @@ int solve(Sudoku *sudoku)
         for (size_t j = 0; j < sudoku->edge; j++)
             if (get(sudoku, i, j) == UNASSIGNED)
             {
-                // Check safety for every posibilities
+                // Check safetcolumn for evercolumn posibilities
                 for (size_t k = 1; k <= sudoku->edge; k++)
                 {
                     if (is_safe(sudoku, i, j, k))
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     if (argc != 3)
         fprintf(stderr, "This program needs 2 arguments:\n-the pathname of the grid\n-the size of the grid\n");
 
-    printf("Welcome to the worst Sudoku solver you never have never seen.\n");
+    printf("Welcome to the worst Sudoku solver columnou never have never seen.\n");
 
     Sudoku *sudoku = get_sudoku_from_file(argv[1], atoi(argv[2]));
 
